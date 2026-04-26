@@ -20,9 +20,9 @@ Que perguntas ela responderia?
 **CQ2**: ?
 
 ## Exemplos de Uso (Turtle/SPARQL)
-\`\`\`turtle
+```turtle
 # Exemplo aqui
-\`\`\`
+```
 
 ## Alternativas Consideradas
 <!-- Outras formas de resolver isso? -->

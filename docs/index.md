@@ -16,16 +16,16 @@ Bem-vindo ao projeto de ontologia formal para administração pública brasileir
 Uma ontologia OWL (Web Ontology Language) que permite descrever organizações públicas brasileiras (Ministérios, Secretarias, Prefeituras) de forma **estruturada, formal e interoperável** na Web Semântica.
 
 ### Antes de br-adm-publica-ontology:
-\`\`\`json
+```json
 {
   "nome": "Secretaria da Fazenda de PE",
   "sigla": "SEFAZ",
   "cnpj": "16717114000140"
 }
-\`\`\`
+```
 
 ### Depois:
-\`\`\`turtle
+```turtle
 <https://data.gov.br/org/pe-sefaz>
     a br:OrgaoEstadual ;                       # Tipo
     a cpov:PublicOrganization ;                # Classe europeia
@@ -37,7 +37,7 @@ Uma ontologia OWL (Web Ontology Language) que permite descrever organizações p
     org:subOrganizationOf <.../gov-pe> ;     # Relacionamento
     foaf:mbox <mailto:sefaz@sefaz.pe.gov.br> # Contato
 .
-\`\`\`
+```
 
 ---
 
@@ -47,10 +47,10 @@ Uma ontologia OWL (Web Ontology Language) que permite descrever organizações p
 
 Clone o repositório:
 
-\`\`\`bash
+```bash
 git clone https://github.com/aeonbridge/br-adm-publica-ontology.git
 cd br-adm-publica-ontology
-\`\`\`
+```
 
 ### 2️⃣ Carregue a Ontologia
 
@@ -59,7 +59,7 @@ cd br-adm-publica-ontology
 2. File → Open → \`ontology/br-adm-publica-core.owl\`
 
 **Em Python (com rdflib):**
-\`\`\`python
+```python
 from rdflib import Graph
 
 g = Graph()
@@ -72,11 +72,11 @@ results = g.query('''
         ?org a br:OrgaoEstadual .
     }
 ''')
-\`\`\`
+```
 
 ### 3️⃣ Consulte com SPARQL
 
-\`\`\`sparql
+```sparql
 PREFIX br: <https://data.gov.br/ontology/adm-publica/>
 PREFIX cpov: <http://data.europa.eu/m8g/>
 PREFIX org: <http://www.w3.org/ns/org#>
@@ -89,7 +89,7 @@ WHERE {
          cpov:hasJurisdiction ?territorio .
 }
 ORDER BY ?label
-\`\`\`
+```
 
 ---
 
@@ -97,7 +97,7 @@ ORDER BY ?label
 
 ### Exemplo 1: Ministério da Fazenda (Federal)
 
-\`\`\`turtle
+```turtle
 @prefix br: <https://data.gov.br/ontology/adm-publica/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix cpov: <http://data.europa.eu/m8g/> .
@@ -113,11 +113,11 @@ ORDER BY ?label
     cpov:jurisdictionLevel "federal" ;
     foaf:homepage <https://www.gov.br/fazenda> ;
     foaf:mbox <mailto:ouvidoria@fazenda.gov.br> .
-\`\`\`
+```
 
 ### Exemplo 2: Secretaria de Fazenda de Pernambuco (Estadual)
 
-\`\`\`turtle
+```turtle
 <https://data.gov.br/org/pe-sefaz-2024>
     a br:OrgaoEstadual ;
     rdfs:label "Secretaria da Fazenda do Estado de Pernambuco" ;
@@ -127,11 +127,11 @@ ORDER BY ?label
     cpov:jurisdictionLevel "estadual" ;
     org:subOrganizationOf <https://data.gov.br/org/pe-executivo-2024> ;
     foaf:homepage <https://www.sefaz.pe.gov.br> .
-\`\`\`
+```
 
 ### Exemplo 3: Prefeitura de Recife (Municipal)
 
-\`\`\`turtle
+```turtle
 <https://data.gov.br/org/recife-prefeitura-2024>
     a br:Municipio ;
     rdfs:label "Prefeitura do Recife" ;
@@ -141,7 +141,7 @@ ORDER BY ?label
     cpov:jurisdictionLevel "municipal" ;
     org:subOrganizationOf <https://data.gov.br/territory/pernambuco-2611606> ;
     foaf:homepage <https://www2.recife.pe.gov.br> .
-\`\`\`
+```
 
 ---
 

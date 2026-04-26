@@ -23,9 +23,9 @@ Que perguntas essa extensão responderia?
 **CQ2**: ?
 
 ## Exemplos Turtle
-\`\`\`turtle
+```turtle
 # Exemplo de instância
-\`\`\`
+```
 
 ## Alinhamentos Propostos
 - [ ] W3C ORG?

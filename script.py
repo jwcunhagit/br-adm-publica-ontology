@@ -104,7 +104,7 @@ A Europa resolveu este problema entre 2016-2020 com **EU Core Public Organisatio
 
 ### Diagrama de Classes (Hierarquia)
 
-\`\`\`
+```
 foaf:Organization (FOAF)
 ├─ org:FormalOrganization (W3C ORG)
 │  └─ cpov:PublicOrganization (EU CPOV)
@@ -112,7 +112,7 @@ foaf:Organization (FOAF)
 │        ├─ br:OrgaoFederal
 │        ├─ br:OrgaoEstadual
 │        └─ br:Municipio
-\`\`\`
+```
 
 ### Stack de Padrões
 
@@ -141,7 +141,7 @@ Todas as entidades em br-adm-publica-ontology devem ter **pelo menos 2 dos 3** i
 
 ### W3C ORG (Organization Ontology)
 
-\`\`\`turtle
+```turtle
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
@@ -155,11 +155,11 @@ org:subOrganizationOf       # Subordinação hierárquica
 org:Role                     # Papel dentro da organização
 org:Membership              # Vínculo entre agente e organização
 org:hasMembershipRole       # Ligação explícita
-\`\`\`
+```
 
 ### CPOV (Core Public Organisation Vocabulary)
 
-\`\`\`turtle
+```turtle
 @prefix cpov: <http://data.europa.eu/m8g/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 
@@ -172,11 +172,11 @@ cpov:PublicOrganization
 cpov:hasJurisdiction        # Território/Esfera
 cpov:jurisdictionLevel      # Nível (federal, regional, local)
 cpov:playsRole              # Papéis públicos (regulador, fornecedor, etc)
-\`\`\`
+```
 
 ### br: Extension (Aeon Bridge)
 
-\`\`\`turtle
+```turtle
 @prefix br: <https://data.gov.br/ontology/adm-publica/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
@@ -218,13 +218,13 @@ br:esfera rdf:type owl:InverseFunctionalProperty ;
     rdfs:domain br:OrganizacaoPublica ;
     rdfs:range [ owl:oneOf (br:Esfera_Federal br:Esfera_Estadual br:Esfera_Municipal) ] ;
     rdfs:comment "Nível de governo: federal, estadual ou municipal" .
-\`\`\`
+```
 
 ---
 
 ## 📁 Estrutura do Repositório
 
-\`\`\`
+```
 br-adm-publica-ontology/
 ├── README.md                          # Este arquivo
 ├── CONTRIBUTING.md                    # Guia de contribuições
@@ -291,7 +291,7 @@ br-adm-publica-ontology/
 ├── pyproject.toml                     # Dependências Python
 ├── requirements.txt
 └── CHANGELOG.md
-\`\`\`
+```
 
 ---
 
@@ -309,7 +309,7 @@ br-adm-publica-ontology/
 
 ### Processo de Contribuição
 
-\`\`\`
+```
 1. Abra uma Issue descrevendo a ideia
    ↓
 2. Aguarde feedback dos mantenedores
@@ -321,7 +321,7 @@ br-adm-publica-ontology/
 5. Code review + aprovação da comunidade
    ↓
 6. Merge + reconhecimento no CHANGELOG
-\`\`\`
+```
 
 ### Iniciante? Comece por Aqui
 
@@ -456,16 +456,16 @@ Bem-vindo ao projeto de ontologia formal para administração pública brasileir
 Uma ontologia OWL (Web Ontology Language) que permite descrever organizações públicas brasileiras (Ministérios, Secretarias, Prefeituras) de forma **estruturada, formal e interoperável** na Web Semântica.
 
 ### Antes de br-adm-publica-ontology:
-\`\`\`json
+```json
 {
   "nome": "Secretaria da Fazenda de PE",
   "sigla": "SEFAZ",
   "cnpj": "16717114000140"
 }
-\`\`\`
+```
 
 ### Depois:
-\`\`\`turtle
+```turtle
 <https://data.gov.br/org/pe-sefaz>
     a br:OrgaoEstadual ;                       # Tipo
     a cpov:PublicOrganization ;                # Classe europeia
@@ -477,7 +477,7 @@ Uma ontologia OWL (Web Ontology Language) que permite descrever organizações p
     org:subOrganizationOf <.../gov-pe> ;     # Relacionamento
     foaf:mbox <mailto:sefaz@sefaz.pe.gov.br> # Contato
 .
-\`\`\`
+```
 
 ---
 
@@ -487,10 +487,10 @@ Uma ontologia OWL (Web Ontology Language) que permite descrever organizações p
 
 Clone o repositório:
 
-\`\`\`bash
+```bash
 git clone https://github.com/aeonbridge/br-adm-publica-ontology.git
 cd br-adm-publica-ontology
-\`\`\`
+```
 
 ### 2️⃣ Carregue a Ontologia
 
@@ -499,7 +499,7 @@ cd br-adm-publica-ontology
 2. File → Open → \`ontology/br-adm-publica-core.owl\`
 
 **Em Python (com rdflib):**
-\`\`\`python
+```python
 from rdflib import Graph
 
 g = Graph()
@@ -512,11 +512,11 @@ results = g.query('''
         ?org a br:OrgaoEstadual .
     }
 ''')
-\`\`\`
+```
 
 ### 3️⃣ Consulte com SPARQL
 
-\`\`\`sparql
+```sparql
 PREFIX br: <https://data.gov.br/ontology/adm-publica/>
 PREFIX cpov: <http://data.europa.eu/m8g/>
 PREFIX org: <http://www.w3.org/ns/org#>
@@ -529,7 +529,7 @@ WHERE {
          cpov:hasJurisdiction ?territorio .
 }
 ORDER BY ?label
-\`\`\`
+```
 
 ---
 
@@ -537,7 +537,7 @@ ORDER BY ?label
 
 ### Exemplo 1: Ministério da Fazenda (Federal)
 
-\`\`\`turtle
+```turtle
 @prefix br: <https://data.gov.br/ontology/adm-publica/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix cpov: <http://data.europa.eu/m8g/> .
@@ -553,11 +553,11 @@ ORDER BY ?label
     cpov:jurisdictionLevel "federal" ;
     foaf:homepage <https://www.gov.br/fazenda> ;
     foaf:mbox <mailto:ouvidoria@fazenda.gov.br> .
-\`\`\`
+```
 
 ### Exemplo 2: Secretaria de Fazenda de Pernambuco (Estadual)
 
-\`\`\`turtle
+```turtle
 <https://data.gov.br/org/pe-sefaz-2024>
     a br:OrgaoEstadual ;
     rdfs:label "Secretaria da Fazenda do Estado de Pernambuco" ;
@@ -567,11 +567,11 @@ ORDER BY ?label
     cpov:jurisdictionLevel "estadual" ;
     org:subOrganizationOf <https://data.gov.br/org/pe-executivo-2024> ;
     foaf:homepage <https://www.sefaz.pe.gov.br> .
-\`\`\`
+```
 
 ### Exemplo 3: Prefeitura de Recife (Municipal)
 
-\`\`\`turtle
+```turtle
 <https://data.gov.br/org/recife-prefeitura-2024>
     a br:Municipio ;
     rdfs:label "Prefeitura do Recife" ;
@@ -581,7 +581,7 @@ ORDER BY ?label
     cpov:jurisdictionLevel "municipal" ;
     org:subOrganizationOf <https://data.gov.br/territory/pernambuco-2611606> ;
     foaf:homepage <https://www2.recife.pe.gov.br> .
-\`\`\`
+```
 
 ---
 
@@ -692,12 +692,12 @@ Ao participar, você concorda em manter um ambiente respeitoso e inclusivo.
 
 ### Passo 1: Abra uma Issue (Geralmente Necessário)
 
-\`\`\`
+```
 Para Documentação: Pode fazer PR direto
 Para Ontologia: SEMPRE abra Issue PRIMEIRO
 Para Bugs: Use template bug_report.md
 Para Features: Use template feature_request.md
-\`\`\`
+```
 
 **Título descritivo:**
 - ✅ "Adicionar classe br:PortoEstadual para autarquias portuárias"
@@ -705,7 +705,7 @@ Para Features: Use template feature_request.md
 
 ### Passo 2: Faça Fork e Configure Ambiente
 
-\`\`\`bash
+```bash
 git clone https://github.com/SEU_USUARIO/br-adm-publica-ontology.git
 cd br-adm-publica-ontology
 
@@ -715,12 +715,12 @@ git checkout -b feature/adicionar-porto-estadual
 git checkout -b fix/alinhamento-cpov-typo
 # ou
 git checkout -b docs/melhorar-readme-pt
-\`\`\`
+```
 
 ### Passo 3: Código + Testes + Docs
 
 **Se for Ontologia:**
-\`\`\`bash
+```bash
 # Edite arquivo OWL
 vim ontology/br-adm-publica-core.owl
 
@@ -732,19 +732,19 @@ vim validation/test-cases/seu-teste.ttl
 
 # Documente em ADR
 vim docs/historico-decisoes.md
-\`\`\`
+```
 
 **Se for Documentação:**
-\`\`\`bash
+```bash
 # Edite markdown
 vim docs/seu-documento.md
 
 # Rode teste de links (futura CI)
 # (Manual por enquanto)
-\`\`\`
+```
 
 **Se for Código Python (Mappers):**
-\`\`\`bash
+```bash
 # Instale deps
 pip install -r requirements.txt
 
@@ -756,11 +756,11 @@ python -m pytest mappings/test_seu_mapper.py
 
 # Lint
 flake8 mappings/seu-mapper.py
-\`\`\`
+```
 
 ### Passo 4: Commit com Mensagem Clara
 
-\`\`\`bash
+```bash
 git add .
 git commit -m "feat: adicionar br:PortoEstadual com exemplos e testes
 
@@ -771,7 +771,7 @@ git commit -m "feat: adicionar br:PortoEstadual com exemplos e testes
 - Atualizado docs/exemplos/estadual-secretaria.ttl
 
 Closes #42"
-\`\`\`
+```
 
 **Convenção de Commit (Conventional Commits):**
 - \`feat:\` nova feature
@@ -783,14 +783,14 @@ Closes #42"
 
 ### Passo 5: Push e Abra Pull Request
 
-\`\`\`bash
+```bash
 git push origin feature/adicionar-porto-estadual
 # GitHub notificará para criar PR
-\`\`\`
+```
 
 **Template de PR (automático no GitHub):**
 
-\`\`\`markdown
+```markdown
 ## Descrição
 Breve resumo do que muda
 
@@ -815,7 +815,7 @@ Breve resumo do que muda
 - [ ] Adicionei documentação
 - [ ] Adicionei testes
 - [ ] Não quebrei builds existentes
-\`\`\`
+```
 
 ### Passo 6: Code Review
 
@@ -838,26 +838,26 @@ Mantenedores vão:
 4. Conserte antes de fazer commit
 
 **Com Apache Jena (CLI):**
-\`\`\`bash
+```bash
 # Valide sintaxe RDF/XML
 riot --check ontology/br-adm-publica-core.owl
 
 # Se usar Turtle
 riot --check ontology/br-adm-publica-core.ttl
-\`\`\`
+```
 
 ### SHACL Validation
 
-\`\`\`bash
+```bash
 # Valide dados contra shapes
 pyshacl validate \\
     -s validation/shacl-shapes.ttl \\
     -d ontology/br-adm-publica-core.owl
-\`\`\`
+```
 
 ### Convenção de Namespaces
 
-\`\`\`turtle
+```turtle
 @prefix br: <https://data.gov.br/ontology/adm-publica/> .
 @prefix cpov: <http://data.europa.eu/m8g/> .
 @prefix org: <http://www.w3.org/ns/org#> .
@@ -868,13 +868,13 @@ pyshacl validate \\
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-\`\`\`
+```
 
 ### Estrutura de Competency Questions (CQs)
 
 Todo novo conceito deve ter **pelo menos 2 Competency Questions**:
 
-\`\`\`markdown
+```markdown
 **CQ1**: Listar todos os órgãos estaduais da esfera de Pernambuco
 
 SPARQL:
@@ -890,7 +890,7 @@ SELECT ?municipio WHERE {
     ?secretaria a br:SecretariaEducacao ;
                 org:subOrganizationOf ?municipio .
 }
-\`\`\`
+```
 
 ---
 
@@ -980,9 +980,9 @@ Que perguntas ela responderia?
 **CQ2**: ?
 
 ## Exemplos de Uso (Turtle/SPARQL)
-\`\`\`turtle
+```turtle
 # Exemplo aqui
-\`\`\`
+```
 
 ## Alternativas Consideradas
 <!-- Outras formas de resolver isso? -->
@@ -1016,9 +1016,9 @@ Que perguntas essa extensão responderia?
 **CQ2**: ?
 
 ## Exemplos Turtle
-\`\`\`turtle
+```turtle
 # Exemplo de instância
-\`\`\`
+```
 
 ## Alinhamentos Propostos
 - [ ] W3C ORG?
