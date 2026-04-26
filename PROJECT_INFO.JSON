@@ -1,0 +1,28 @@
+{
+  "project_name": "br-adm-publica-ontology",
+  "sponsor": "Aeon Bridge Co.",
+  "license": "CC-BY 4.0",
+  "inception_date": "2026-04-26",
+  "repository_url": "https://github.com/aeonbridge/br-adm-publica-ontology",
+  "version": "0.1-alpha",
+  "description": "Ontologia formal para administração pública brasileira em três esferas",
+  "domains": {
+    "federal": "Administração Federal (SIORG, Ministérios, Autarquias)",
+    "estadual": "Administração Estadual (27 Estados + DF)",
+    "municipal": "Administração Municipal (5.570 Municípios)",
+    "intergovernamental": "Relações entre as 3 esferas"
+  },
+  "padroes_base": [
+    "W3C ORG (Organization Ontology)",
+    "EU CPOV (Core Public Organisation Vocabulary)",
+    "FOAF (Friend of a Friend)",
+    "schema.org",
+    "DCAT-BR",
+    "PROV-O"
+  ],
+  "identificadores_canonicos": {
+    "cnpj": "14 dígitos - 100% cobertura pública",
+    "codigo_ibge": "7 dígitos - municípios + estados",
+    "siorg_id": "Numérico - ~5.800 órgãos federais"
+  }
+}

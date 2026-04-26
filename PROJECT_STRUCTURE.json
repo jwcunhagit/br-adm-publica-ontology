@@ -1,0 +1,20 @@
+{
+  "project": "br-adm-publica-ontology",
+  "root_directories": [
+    "docs/",
+    "ontology/",
+    "mappings/",
+    "validation/",
+    "assets/",
+    ".github/"
+  ],
+  "key_files": [
+    "README.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "pyproject.toml",
+    "requirements.txt"
+  ]
+}

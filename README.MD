@@ -1,0 +1,403 @@
+# br-adm-publica-ontology
+
+[![License: CC-BY 4.0](https://img.shields.io/badge/License-CC--BY%204.0-lightblue.svg)](http://creativecommons.org/licenses/by/4.0/)
+[![GitHub Issues](https://img.shields.io/github/issues/aeonbridge/br-adm-publica-ontology)](https://github.com/aeonbridge/br-adm-publica-ontology/issues)
+[![Contributors](https://img.shields.io/github/contributors/aeonbridge/br-adm-publica-ontology)](https://github.com/aeonbridge/br-adm-publica-ontology/graphs/contributors)
+[![Status](https://img.shields.io/badge/Status-Alpha%20v0.1-orange)](https://github.com/aeonbridge/br-adm-publica-ontology/releases)
+
+**Ontologia Formal para Administração Pública Brasileira em Três Esferas**
+
+Uma arquitetura semântica integrada para mapear organizações, papéis, hierarquias e relacionamentos na administração pública brasileira (Federal, Estadual e Municipal) utilizando padrões W3C, CPOV (Core Public Organisation Vocabulary) e extensões brasileiras validadas.
+
+---
+
+## 📋 Índice
+
+- [Visão Geral](#visão-geral)
+- [Motivação Histórica](#motivação-histórica)
+- [Arquitetura da Solução](#arquitetura-da-solução)
+- [Padrões Base](#padrões-base)
+- [Estrutura do Repositório](#estrutura-do-repositório)
+- [Como Contribuir](#como-contribuir)
+- [Roadmap](#roadmap)
+- [Referências](#referências)
+
+---
+
+## 🎯 Visão Geral
+
+Esta ontologia responde a uma lacuna crítica na infraestrutura de dados abertos brasileira: **não existe padrão OWL formal, oficial e validado para representar a estrutura, papéis e relacionamentos da administração pública nas três esferas federativas**.
+
+### O Problema
+
+- **DCAT-BR**: cobre apenas catálogos de dados, não estruturas organizacionais
+- **SIORG** (federal): banco relacional (JSON API), não ontologia publicada
+- **LAI/Portal Transparência**: CSV sem semântica formal
+- **ePING**: padrões de interoperabilidade técnica, não ontologia
+- **Vocabulários anteriores (2010-2012)**: abandonados, namespaces fora do ar
+
+**Resultado**: Governo brasileiro não tem padrão para descrever "Secretaria A é subordinada a Secretaria B" em Linked Data, ou "este dataset é publicado por esta organização em esta esfera jurisdicional".
+
+### A Solução
+
+**br-adm-publica-ontology** implementa uma arquitetura em **três camadas**:
+
+1. **Padrões Base** (W3C, Europa): W3C ORG, FOAF, schema.org, **CPOV**
+2. **Extensão Brasileira**: `br:` namespace com identificadores canônicos (CNPJ, IBGE, SIORG)
+3. **Ontologias de Domínio**: Especialização por setor (Saúde, Educação, Tributária, Regulatória)
+
+---
+
+## 📚 Motivação Histórica
+
+### Contexto Internacional
+
+A Europa resolveu este problema entre 2016-2020 com **EU Core Public Organisation Vocabulary (CPOV)**, desenvolvido pela Comissão Europeia (ISA² Programme):
+- Define hierarquias de governos federados (Bélgica, Espanha, Áustria)
+- Distingue esferas jurisdicionais (`cpov:Jurisdiction`)
+- Herda de W3C ORG (reusabilidade)
+- Usado em produção por Portugal, Bélgica, Espanha
+
+### Contexto Brasil
+
+**Por que não aplicar CPOV direto?**
+
+1. **Identificadores únicos brasileiros** não existem em CPOV:
+   - CNPJ (100% cobertura: Federal, Estadual, Municipal)
+   - Código IBGE (5.570 municípios + 27 UFs)
+   - SIORG_ID (~5.800 órgãos federais)
+
+2. **Hierarquias específicas**: Brasil tem estrutura peculiar (Distrito Federal, Territórios)
+
+3. **Dados abertos existentes**: SIORG, Portal LAI, Receita Federal já publicam estes dados; falta apenas formalização OWL
+
+**Decisão Arquitetural**: Usar **CPOV como base** (reutilizar solução europeia) + **br:* como extensão** (adicionar especificidades brasileiras) = Máxima interoperabilidade + Máxima relevância local.
+
+---
+
+## 🏗️ Arquitetura da Solução
+
+### Diagrama de Classes (Hierarquia)
+
+\`\`\`
+foaf:Organization (FOAF)
+├─ org:FormalOrganization (W3C ORG)
+│  └─ cpov:PublicOrganization (EU CPOV)
+│     └─ br:OrganizacaoPublica (BR Extension)
+│        ├─ br:OrgaoFederal
+│        ├─ br:OrgaoEstadual
+│        └─ br:Municipio
+\`\`\`
+
+### Stack de Padrões
+
+| Camada | Padrão | Propósito | Versão |
+|--------|--------|----------|--------|
+| **Semântica Base** | FOAF 0.99 | Agentes (pessoas, orgs) | 0.99 (W3C) |
+| **Organizações** | W3C ORG 1.0 | Estrutura hierárquica | W3C Recommendation |
+| **Governo** | CPOV 2.00 | Públicas + Jurisdição | W3C Community Note |
+| **Brasil** | br: 0.1-alpha | CNPJ, IBGE, SIORG | Aeon Bridge (em desenvolvimento) |
+| **Descrição Dados** | DCAT-BR 1.1 | Catálogos (integração) | DCAT-AP BR |
+| **Proveniência** | PROV-O 1.0 | Autoridade e delegação | W3C Recommendation |
+
+### Identificadores Canônicos
+
+Todas as entidades em br-adm-publica-ontology devem ter **pelo menos 2 dos 3** identificadores:
+
+| Identificador | Cobertura | Formato | Exemplo | Propriedade |
+|---|---|---|---|---|
+| **CNPJ** | 100% Federal/Estadual/Municipal | 14 dígitos | 16717114000140 | `br:cnpj` |
+| **Código IBGE** | 100% Municípios + Estados + DF | 7 dígitos | 2611606 (Recife-PE) | `br:codigoIBGE` |
+| **SIORG_ID** | ~5.800 órgãos federais | Numérico sequencial | 70000 | `br:siorgId` |
+
+---
+
+## 📦 Padrões Base
+
+### W3C ORG (Organization Ontology)
+
+\`\`\`turtle
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# Classe base: Organização Formal
+org:FormalOrganization 
+    rdfs:subClassOf foaf:Organization ;
+    rdfs:comment "Entidade organizacional legalmente reconhecida" .
+
+# Propriedades principais
+org:subOrganizationOf       # Subordinação hierárquica
+org:Role                     # Papel dentro da organização
+org:Membership              # Vínculo entre agente e organização
+org:hasMembershipRole       # Ligação explícita
+\`\`\`
+
+### CPOV (Core Public Organisation Vocabulary)
+
+\`\`\`turtle
+@prefix cpov: <http://data.europa.eu/m8g/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+
+# Classe base: Organização Pública
+cpov:PublicOrganization
+    rdfs:subClassOf org:FormalOrganization ;
+    rdfs:comment "Organização do setor público com jurisdição definida" .
+
+# Propriedades principais
+cpov:hasJurisdiction        # Território/Esfera
+cpov:jurisdictionLevel      # Nível (federal, regional, local)
+cpov:playsRole              # Papéis públicos (regulador, fornecedor, etc)
+\`\`\`
+
+### br: Extension (Aeon Bridge)
+
+\`\`\`turtle
+@prefix br: <https://data.gov.br/ontology/adm-publica/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes principais
+br:OrganizacaoPublica
+    rdfs:subClassOf cpov:PublicOrganization ;
+    rdfs:comment "Organização pública brasileira com identificadores canônicos" .
+
+br:OrgaoFederal
+    rdfs:subClassOf br:OrganizacaoPublica ;
+    rdfs:comment "Órgão da administração federal (ministério, autarquia, agência)" .
+
+br:OrgaoEstadual
+    rdfs:subClassOf br:OrganizacaoPublica ;
+    rdfs:comment "Órgão da administração estadual ou distrital" .
+
+br:Municipio
+    rdfs:subClassOf br:OrganizacaoPublica ;
+    rdfs:comment "Prefeitura e órgãos municipais" .
+
+# Propriedades: Identificadores
+br:cnpj rdf:type owl:InverseFunctionalProperty ;
+    rdfs:domain [ owl:unionOf (br:OrganizacaoPublica foaf:Person) ] ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Cadastro Nacional da Pessoa Jurídica (14 dígitos)" .
+
+br:codigoIBGE rdf:type owl:InverseFunctionalProperty ;
+    rdfs:domain [ owl:unionOf (br:OrgaoEstadual br:Municipio) ] ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Código IBGE de município ou estado (7 dígitos para município)" .
+
+br:siorgId rdfs:subPropertyOf org:identifier ;
+    rdfs:domain br:OrgaoFederal ;
+    rdfs:range xsd:int ;
+    rdfs:comment "Identificador no Sistema de Informações Organizacionais (SIORG)" .
+
+# Propriedades: Jurisdição Brasileira
+br:esfera rdf:type owl:InverseFunctionalProperty ;
+    rdfs:domain br:OrganizacaoPublica ;
+    rdfs:range [ owl:oneOf (br:Esfera_Federal br:Esfera_Estadual br:Esfera_Municipal) ] ;
+    rdfs:comment "Nível de governo: federal, estadual ou municipal" .
+\`\`\`
+
+---
+
+## 📁 Estrutura do Repositório
+
+\`\`\`
+br-adm-publica-ontology/
+├── README.md                          # Este arquivo
+├── CONTRIBUTING.md                    # Guia de contribuições
+├── CODE_OF_CONDUCT.md                 # Código de conduta
+├── LICENSE                            # CC-BY 4.0
+│
+├── docs/                              # Documentação
+│   ├── index.md                       # Página principal do projeto
+│   ├── arquitetura.md                 # Visão técnica detalhada
+│   ├── guia-de-uso.md                 # Como usar a ontologia
+│   ├── padroes-base.md                # W3C ORG, CPOV, FOAF, schema.org
+│   ├── historico-decisoes.md          # ADR (Architecture Decision Records)
+│   └── exemplos/                      # Exemplos práticos
+│       ├── federal-ministerio.ttl
+│       ├── estadual-secretaria.ttl
+│       └── municipal-prefeitura.ttl
+│
+├── ontology/                          # Arquivos OWL/RDF
+│   ├── br-adm-publica-core.owl        # Core (br:* classes + properties)
+│   ├── br-adm-publica-alignments.owl  # Alinhamentos CPOV + W3C ORG
+│   │
+│   ├── domain-ontologies/             # Ontologias de domínio (em desenvolvimento)
+│   │   ├── saude/
+│   │   │   └── br-saude-publica.owl   # Organizações de saúde
+│   │   ├── educacao/
+│   │   │   └── br-educacao-publica.owl
+│   │   ├── tributaria/
+│   │   │   └── br-tributaria.owl
+│   │   └── regulatoria/
+│   │       └── br-regulatoria.owl
+│   │
+│   └── versions/                      # Histórico de versões
+│       └── v0.1-alpha/
+│
+├── mappings/                          # Mapeamentos de dados existentes
+│   ├── siorg-to-rdf/                  # SIORG (JSON) → RDF
+│   │   └── siorg-mapper.py
+│   ├── ibge-to-rdf/                   # Código IBGE → RDF
+│   └── cnpj-to-rdf/                   # CNPJ → RDF
+│
+├── validation/                        # Testes e validação
+│   ├── shacl-shapes.ttl               # SHACL constraints
+│   ├── competency-questions.md        # CQs (Competency Questions)
+│   └── test-cases/
+│       ├── federal-test.ttl
+│       ├── estadual-test.ttl
+│       └── municipal-test.ttl
+│
+├── assets/                            # Imagens, diagramas
+│   ├── arquitetura-camadas.png
+│   ├── hierarquia-classes.png
+│   └── exemplo-recife.png
+│
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   ├── feature_request.md
+│   │   └── ontology_extension.md
+│   └── workflows/
+│       ├── validate-owl.yml           # CI: validação OWL
+│       ├── test-rdf.yml               # CI: testes RDF
+│       └── build-docs.yml             # CI: build documentação
+│
+├── pyproject.toml                     # Dependências Python
+├── requirements.txt
+└── CHANGELOG.md
+\`\`\`
+
+---
+
+## 🚀 Como Contribuir
+
+### Tipos de Contribuição
+
+**Não é preciso ser desenvolvedor**. Aceitamos:
+
+- **Documentação**: melhorar explicações, criar exemplos
+- **Ontologia**: propor novas classes/propriedades (via Issues primeiro!)
+- **Testes**: validar alinhamentos com SIORG, LAI, Receita Federal
+- **Integrações**: mapear dados de outras fontes (Estados, Municípios)
+- **Divulgação**: artigos, apresentações, workshops
+
+### Processo de Contribuição
+
+\`\`\`
+1. Abra uma Issue descrevendo a ideia
+   ↓
+2. Aguarde feedback dos mantenedores
+   ↓
+3. Faça fork, crie branch (feature/sua-ideia)
+   ↓
+4. Envie PR com descrição clara
+   ↓
+5. Code review + aprovação da comunidade
+   ↓
+6. Merge + reconhecimento no CHANGELOG
+\`\`\`
+
+### Iniciante? Comece por Aqui
+
+- Leia [CONTRIBUTING.md](CONTRIBUTING.md)
+- Veja Issues com label \`good-first-issue\`
+- Converse em Discussions antes de codar
+
+---
+
+## 📊 Roadmap
+
+### ✅ v0.1-alpha (Atual)
+- [x] Arquitetura core (br:* classes)
+- [x] Alinhamento CPOV + W3C ORG
+- [x] Exemplos (Federal, Estadual, Municipal)
+- [x] Validação SHACL básica
+- [x] Documentação base
+
+### 📅 v0.2-beta (Q2 2026)
+- [ ] Ontologias de domínio (Saúde, Educação)
+- [ ] Mapeador SIORG → RDF automático
+- [ ] Integração DCAT-BR (datasets ← orgs)
+- [ ] SPARQL endpoint de teste
+- [ ] Exemplos com dados reais (PE, Recife)
+
+### 🎯 v1.0-stable (Q3-Q4 2026)
+- [ ] Validação por comunidade brasileira
+- [ ] Adoção em dados.gov.br
+- [ ] Ontologias de todos os domínios críticos
+- [ ] Suporte multi-língue (PT/EN/ES)
+- [ ] Tools de migração (CSV → RDF)
+
+### 🔮 v2.0+ (2027)
+- [ ] Alinhamento com OKG/FIBO para setor financeiro
+- [ ] SPARQL federado (União + Estados + Municípios)
+- [ ] Knowledge Graph público em RDF
+- [ ] APIs Linked Data oficiais por esfera
+
+---
+
+## 🤝 Governança
+
+### Mantedores
+
+- **Aeon Bridge Co.** — Sponsor, infraestrutura inicial
+- **Comunidade Brasileira de Semântica** — Validação, extensões
+
+### Processo de Decisão
+
+Grandes mudanças (novas classes, alinhamentos) são discutidas em **ADR (Architecture Decision Records)** antes de merge.
+
+Veja: [docs/historico-decisoes.md](docs/historico-decisoes.md)
+
+---
+
+## 📖 Referências
+
+### Padrões Base
+- [W3C Organization Ontology](https://www.w3.org/TR/vocab-org/) — Recommendation 2014
+- [EU Core Public Organisation Vocabulary](https://semiceu.github.io/CPOV/releases/2.00/) — ISA² Programme
+- [FOAF Vocabulary](http://xmlns.com/foaf/0.1/) — Friend of a Friend
+- [schema.org GovernmentOrganization](https://schema.org/GovernmentOrganization)
+
+### Padrões Brasileiros
+- [DCAT-BR](https://www.gov.br/governodigital/pt-br/infraestrutura-nacional-de-dados/catalogo-nacional-de-dados) — Catálogos de dados abertos
+- [ePING](https://eping.governoeletronico.gov.br) — Padrões de Interoperabilidade
+- [SIORG](https://siorg.gov.br) — Sistema de Informações Organizacionais
+
+### Dados de Referência
+- [Código IBGE](https://www.ibge.gov.br) — 5.570 municípios + 27 UFs
+- [CNPJ](https://www.gov.br/receitafederal) — Receita Federal
+- [Portal Transparência](https://portaltransparencia.gov.br) — CGU
+
+### Acadêmico
+- [CPOV Technical Report](https://joinup.ec.europa.eu/sites/default/files/document/2017-03/CPOV%20Technical%20Report_0.pdf)
+- [OntoUML for Public Organizations](https://www.inf.ufes.br/~gguizzardi) — Guizzardi et al.
+
+---
+
+## 📬 Contato
+
+- **Issues**: [GitHub Issues](https://github.com/aeonbridge/br-adm-publica-ontology/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/aeonbridge/br-adm-publica-ontology/discussions)
+- **Email**: ontology@aeonbridge.io
+
+---
+
+## 📜 Licença
+
+Este projeto está sob licença **CC-BY 4.0** (Atribuição 4.0 Internacional).
+
+Você é livre para:
+- ✅ Usar, modificar, distribuir
+- ✅ Usar para fins comerciais
+- ✅ Adaptar para outros idiomas/contextos
+
+Com a condição de:
+- 📝 Atribuir autoria ao Aeon Bridge Co. e Comunidade br-adm-publica-ontology
+
+---
+
+**Desenvolvido com ❤️ pela Comunidade de Dados Abertos Brasileira**
+
+*Última atualização: 26/04/2026*
