@@ -2,12 +2,14 @@
 
 Bem-vindo ao projeto de ontologia formal para administração pública brasileira.
 
-## 🎯 Comece Aqui
+## Comece Aqui
 
-- **[O que é este projeto?](#o-que-é-este-projeto)**
-- **[Como usar](#como-usar)**
-- **[Exemplos práticos](#exemplos-práticos)**
-- **[Referência técnica](#referência-técnica)**
+| Seção | Para quê serve |
+|---|---|
+| [O que é este projeto?](#o-que-é-este-projeto) | Entender o objetivo da ontologia |
+| [Como usar](#como-usar) | Instalar, carregar e consultar |
+| [Exemplos práticos](#exemplos-práticos) | Ver casos de uso em RDF/Turtle |
+| [Referência técnica](#referência-técnica) | Acessar arquitetura, padrões e ADRs |
 
 ---
 
@@ -156,6 +158,7 @@ Veja documentação completa em:
 ---
 
 ## 📊 Status do Projeto
+
 
 | Componente | Status | Progresso |
 |---|---|---|

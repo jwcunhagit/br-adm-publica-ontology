@@ -69,12 +69,12 @@ Ao participar, você concorda em manter um ambiente respeitoso e inclusivo.
 
 ### Passo 1: Abra uma Issue (Geralmente Necessário)
 
-\`\`\`
+```
 Para Documentação: Pode fazer PR direto
 Para Ontologia: SEMPRE abra Issue PRIMEIRO
 Para Bugs: Use template bug_report.md
 Para Features: Use template feature_request.md
-\`\`\`
+```
 
 **Título descritivo:**
 - ✅ "Adicionar classe br:PortoEstadual para autarquias portuárias"
@@ -82,7 +82,7 @@ Para Features: Use template feature_request.md
 
 ### Passo 2: Faça Fork e Configure Ambiente
 
-\`\`\`bash
+```bash
 git clone https://github.com/SEU_USUARIO/br-adm-publica-ontology.git
 cd br-adm-publica-ontology
 
@@ -92,12 +92,12 @@ git checkout -b feature/adicionar-porto-estadual
 git checkout -b fix/alinhamento-cpov-typo
 # ou
 git checkout -b docs/melhorar-readme-pt
-\`\`\`
+```
 
 ### Passo 3: Código + Testes + Docs
 
 **Se for Ontologia:**
-\`\`\`bash
+```bash
 # Edite arquivo OWL
 vim ontology/br-adm-publica-core.owl
 
@@ -109,19 +109,19 @@ vim validation/test-cases/seu-teste.ttl
 
 # Documente em ADR
 vim docs/historico-decisoes.md
-\`\`\`
+```
 
 **Se for Documentação:**
-\`\`\`bash
+```bash
 # Edite markdown
 vim docs/seu-documento.md
 
 # Rode teste de links (futura CI)
 # (Manual por enquanto)
-\`\`\`
+```
 
 **Se for Código Python (Mappers):**
-\`\`\`bash
+```bash
 # Instale deps
 pip install -r requirements.txt
 
@@ -133,11 +133,11 @@ python -m pytest mappings/test_seu_mapper.py
 
 # Lint
 flake8 mappings/seu-mapper.py
-\`\`\`
+```
 
 ### Passo 4: Commit com Mensagem Clara
 
-\`\`\`bash
+```bash
 git add .
 git commit -m "feat: adicionar br:PortoEstadual com exemplos e testes
 
@@ -148,7 +148,7 @@ git commit -m "feat: adicionar br:PortoEstadual com exemplos e testes
 - Atualizado docs/exemplos/estadual-secretaria.ttl
 
 Closes #42"
-\`\`\`
+```
 
 **Convenção de Commit (Conventional Commits):**
 - \`feat:\` nova feature
@@ -160,14 +160,14 @@ Closes #42"
 
 ### Passo 5: Push e Abra Pull Request
 
-\`\`\`bash
+```bash
 git push origin feature/adicionar-porto-estadual
 # GitHub notificará para criar PR
-\`\`\`
+```
 
 **Template de PR (automático no GitHub):**
 
-\`\`\`markdown
+```markdown
 ## Descrição
 Breve resumo do que muda
 
@@ -192,7 +192,7 @@ Breve resumo do que muda
 - [ ] Adicionei documentação
 - [ ] Adicionei testes
 - [ ] Não quebrei builds existentes
-\`\`\`
+```
 
 ### Passo 6: Code Review
 
@@ -215,26 +215,26 @@ Mantenedores vão:
 4. Conserte antes de fazer commit
 
 **Com Apache Jena (CLI):**
-\`\`\`bash
+```bash
 # Valide sintaxe RDF/XML
 riot --check ontology/br-adm-publica-core.owl
 
 # Se usar Turtle
 riot --check ontology/br-adm-publica-core.ttl
-\`\`\`
+```
 
 ### SHACL Validation
 
-\`\`\`bash
+```bash
 # Valide dados contra shapes
 pyshacl validate \
     -s validation/shacl-shapes.ttl \
     -d ontology/br-adm-publica-core.owl
-\`\`\`
+```
 
 ### Convenção de Namespaces
 
-\`\`\`turtle
+```turtle
 @prefix br: <https://data.gov.br/ontology/adm-publica/> .
 @prefix cpov: <http://data.europa.eu/m8g/> .
 @prefix org: <http://www.w3.org/ns/org#> .
@@ -245,13 +245,13 @@ pyshacl validate \
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-\`\`\`
+```
 
 ### Estrutura de Competency Questions (CQs)
 
 Todo novo conceito deve ter **pelo menos 2 Competency Questions**:
 
-\`\`\`markdown
+```markdown
 **CQ1**: Listar todos os órgãos estaduais da esfera de Pernambuco
 
 SPARQL:
@@ -267,7 +267,7 @@ SELECT ?municipio WHERE {
     ?secretaria a br:SecretariaEducacao ;
                 org:subOrganizationOf ?municipio .
 }
-\`\`\`
+```
 
 ---
 
