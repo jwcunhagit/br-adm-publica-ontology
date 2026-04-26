@@ -79,7 +79,7 @@ A Europa resolveu este problema entre 2016-2020 com **EU Core Public Organisatio
 
 ### Diagrama de Classes (Hierarquia)
 
-\`\`\`
+```
 foaf:Organization (FOAF)
 ├─ org:FormalOrganization (W3C ORG)
 │  └─ cpov:PublicOrganization (EU CPOV)
@@ -87,7 +87,7 @@ foaf:Organization (FOAF)
 │        ├─ br:OrgaoFederal
 │        ├─ br:OrgaoEstadual
 │        └─ br:Municipio
-\`\`\`
+```
 
 ### Stack de Padrões
 
@@ -116,7 +116,7 @@ Todas as entidades em br-adm-publica-ontology devem ter **pelo menos 2 dos 3** i
 
 ### W3C ORG (Organization Ontology)
 
-\`\`\`turtle
+```turtle
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
@@ -130,11 +130,11 @@ org:subOrganizationOf       # Subordinação hierárquica
 org:Role                     # Papel dentro da organização
 org:Membership              # Vínculo entre agente e organização
 org:hasMembershipRole       # Ligação explícita
-\`\`\`
+```
 
 ### CPOV (Core Public Organisation Vocabulary)
 
-\`\`\`turtle
+```turtle
 @prefix cpov: <http://data.europa.eu/m8g/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 
@@ -147,11 +147,11 @@ cpov:PublicOrganization
 cpov:hasJurisdiction        # Território/Esfera
 cpov:jurisdictionLevel      # Nível (federal, regional, local)
 cpov:playsRole              # Papéis públicos (regulador, fornecedor, etc)
-\`\`\`
+```
 
 ### br: Extension (Aeon Bridge)
 
-\`\`\`turtle
+```turtle
 @prefix br: <https://data.gov.br/ontology/adm-publica/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
@@ -193,13 +193,13 @@ br:esfera rdf:type owl:InverseFunctionalProperty ;
     rdfs:domain br:OrganizacaoPublica ;
     rdfs:range [ owl:oneOf (br:Esfera_Federal br:Esfera_Estadual br:Esfera_Municipal) ] ;
     rdfs:comment "Nível de governo: federal, estadual ou municipal" .
-\`\`\`
+```
 
 ---
 
 ## 📁 Estrutura do Repositório
 
-\`\`\`
+```
 br-adm-publica-ontology/
 ├── README.md                          # Este arquivo
 ├── CONTRIBUTING.md                    # Guia de contribuições
@@ -266,7 +266,7 @@ br-adm-publica-ontology/
 ├── pyproject.toml                     # Dependências Python
 ├── requirements.txt
 └── CHANGELOG.md
-\`\`\`
+```
 
 ---
 
@@ -284,7 +284,7 @@ br-adm-publica-ontology/
 
 ### Processo de Contribuição
 
-\`\`\`
+```
 1. Abra uma Issue descrevendo a ideia
    ↓
 2. Aguarde feedback dos mantenedores
@@ -296,7 +296,7 @@ br-adm-publica-ontology/
 5. Code review + aprovação da comunidade
    ↓
 6. Merge + reconhecimento no CHANGELOG
-\`\`\`
+```
 
 ### Iniciante? Comece por Aqui
 
